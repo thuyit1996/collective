@@ -1,0 +1,64 @@
+.main-content {
+  margin-left: 0;
+  padding: 42px 35px 33px 35px;
+  height: 92vh;
+
+  // @media (min-width: 1201px) {
+  //   margin-left: 75px;
+  // }
+
+  &__wrap {
+    background-color: #ffffff;
+    height: 100%;
+    border-radius: 12px;
+    position: relative;
+    overflow-y: hidden;
+  }
+
+  &__trans-button {
+    position: fixed;
+    right: 15px;
+    bottom: 15px;
+    cursor: pointer;
+    z-index: 1;
+    border-radius: 50%;
+    &.active {
+      z-index: 1060;
+    }
+    img {
+      border-radius: 50%;
+    }
+  }
+
+  &__container {
+    height: 100%;
+    padding: 20px;
+  }
+
+  //INFO: Custom scroll bar
+  /* width */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  &.background-grey {
+    padding: 12px 30px 15px 30px;
+    .main-content__container {
+      background-color: #f1f2f7;
+    }
+  }
+}

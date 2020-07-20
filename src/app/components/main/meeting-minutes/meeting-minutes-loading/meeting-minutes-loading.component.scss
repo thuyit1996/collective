@@ -1,0 +1,159 @@
+:host {
+  position: absolute;
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  padding-top: 10px;
+  -webkit-mask-image: -webkit-gradient(linear, left 50%, left bottom, from(rgba(0, 0, 0, 1)), to(rgba(0, 0, 0, 0)))
+}
+
+$base-color: rgba(221, 221, 221, 0.863);
+$ghost-color: #ecebebf1;
+$animation-duration: 1000ms;
+$gradient-offset: 52+16;
+
+
+@mixin background-gradient {
+  background-image: linear-gradient(90deg, $base-color 0px, $ghost-color 40px, $base-color 80px);
+  background-size: 80vw;
+}
+
+@keyframes ghost-lines {
+  0% {
+    background-position: -100px;
+  }
+
+  40% {
+    background-position: 40vw;
+  }
+
+  100% {
+    background-position: 60vw;
+  }
+}
+
+@keyframes ghost-avatar {
+  0% {
+    background-position: -100px + $gradient-offset;
+  }
+
+  40%,
+  100% {
+    background-position: 140px + $gradient-offset;
+  }
+}
+
+@mixin animate-ghost-avatar {
+  @include background-gradient;
+  animation: ghost-avatar $animation-duration infinite linear;
+}
+
+@mixin animate-ghost-line {
+  animation: ghost-lines $animation-duration infinite linear;
+}
+
+.user {
+  overflow: hidden;
+  margin-bottom: 12px;
+
+  .avatar {
+    float: left;
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    border: solid 2px rgba(204, 204, 204, 0.24);
+    border-radius: 50%;
+    background: url('../../../../../assets/img/loading-avatar.svg');
+    margin-left: 27px;
+    overflow: hidden;
+    margin-right: 10px;
+  }
+
+  .lines {
+    margin-left: var(--avatar-gap);
+    margin-block-end: var(--row-gap);
+    width: 80%;
+    float: left;
+
+    h2,
+    h3,
+    p {
+      height: 24px;
+      margin: 0;
+      padding: 0;
+      margin-top: 0;
+      align-content: center;
+
+      position: relative;
+    }
+
+    h2 {
+      font-weight: 500;
+      font-size: 1.2em;
+    }
+
+    h3 {
+      color: #8cc5d6;
+      font-weight: 500;
+      font-size: 1.1em;
+    }
+
+    p {
+      font-size: 0.90em;
+
+      .company {
+        color: rgb(148, 148, 148);
+      }
+    }
+  }
+
+}
+
+
+.user {
+  overflow: hidden;
+
+  .avatar {
+    float: left;
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    border: solid 2px rgb(212, 212, 212);
+    border-radius: 50%;
+    background-size: 30px 30px;
+    margin-left: 27px;
+
+    overflow: hidden;
+  }
+
+  .lines {
+    margin-left: var(--avatar-gap);
+    margin-block-end: var(--ghost-row-gap);
+
+    h2,
+    h3,
+    p {
+      background-color: gray;
+      border-bottom: 3px solid white;
+      border-radius: 4px 4px 4px 4px;
+      @include background-gradient;
+      @include animate-ghost-line;
+    }
+
+    h2 {
+      width: 30%;
+    }
+
+    h3 {
+      height: 50px;
+      width: 85%;
+    }
+
+
+  }
+
+  &:not(:first-child),
+  &:not(:second-child) {
+    // margin-top: -5px;
+  }
+}

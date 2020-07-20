@@ -1,0 +1,98 @@
+<app-modal [isModalOpen]="isModalOpen">
+  <div class="modal-content">
+    <div class="row">
+      <div class="col-2 modal-avatars" cdkDropList #todoList="cdkDropList" [cdkDropListData]="listUser"
+        [cdkDropListConnectedTo]="[doneList]" (cdkDropListDropped)="$modalAddProject_onDrop($event)">
+        <div class="modal-avatars__image">
+          <div class="user-information"
+            [ngStyle]="{'backgroundColor': userInformation?.User_Colour.length === 6 ?  ('#' + userInformation?.User_Colour) : '#d77373'}">
+            <span class="user-name">{{userInformation?.User_Initials ||  userInformation?.fallBackName}}</span>
+          </div>
+          <div class="joining-users">
+            <p>Team</p>
+            <div class="joining-users__user user-avatar" *ngFor="let item of listUser ; index as i"
+              [ngStyle]="{'backgroundColor':  item?.User_Colour.length === 6  ? ('#'+ item?.User_Colour) : '#d77373'}"
+              cdkDrag>
+              <span class="user-name">{{item?.User_Initials || item?.fallbackName}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-10 modal-info">
+        <div class="modal-info-content">
+          <form [formGroup]="modalAddProjectFormGroup" (ngSubmit)="$modalAddProject_onAddProjectHandler()">
+            <div class="modal-header">
+              <h6 class="modal-title">{{modalHeader}}</h6>
+              <button type="button" class="btn btn-custom btn-close" data-dismiss="modal" aria-label="Close"
+                (click)="$modalAddProject_closeModal()">
+                <!-- <i class="fa fa-times"></i> -->
+                CLOSE
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row mb-3">
+                <div class="col-12">
+                  <div class="form-group form-group-custom form-group-custom--project-name">
+                    <input type="text" class="form-control input-custom" placeholder="Project Name"
+                      formControlName="Project_name">
+                    <label for="">Project Name</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3 row-margin-0">
+                <div class="col-md-12 user-drag" cdkDropList cdkDropListOrientation="horizontal" #doneList="cdkDropList"
+                  [cdkDropListData]="listUserChosen" [cdkDropListConnectedTo]="todoList"
+                  (cdkDropListDropped)="$modalAddProject_onDrop($event)">
+                  <div class="user user-avatar" *ngFor="let item of listUserChosen || []"
+                    [ngStyle]="{'backgroundColor':  item?.User_Colour.length === 6 ? ('#'+ item?.User_Colour) : '#d77373'}"
+                    cdkDrag>
+                    <span class="user-name">{{item?.User_Initials || item?.fallbackName}}</span>
+                  </div>
+                  <p *ngIf="isShowDragText">Drag project team to this area</p>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-md-6 form-group-mb-3 pr-8">
+                  <div class="form-group form-group-custom form-group-custom--start-time">
+                    <input type="text" class="form-control input-custom" placeholder="Start Date"
+                      formControlName="Start_date" name="start-time" [owlDateTime]="dt" [owlDateTimeTrigger]="dt"
+                      [(ngModel)]="startDate">
+                    <owl-date-time #dt></owl-date-time>
+                    <label for="">Start Date</label>
+                  </div>
+                </div>
+                <div class="col-md-6 form-group-mb-3 pl-8">
+                  <div class="form-group form-group-custom form-group-custom--end-time">
+                    <input type="text" class="form-control input-custom" placeholder="End Date" formControlName="End_date"
+                      name="end-time" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" [(ngModel)]="endDate">
+                    <owl-date-time #dt1></owl-date-time>
+                    <label for="">End Date</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-md-12">
+                  <p>Status ... </p>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-md-12">
+                  <div class="form-group form-group-custom form-group-custom--description">
+                    <textarea ng-model="myTextarea" rows="6" cols="50" placeholder="Description"
+                      formControlName="Project_note"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-custom btn-cancel" data-dismiss="modal"
+                (click)="$modalAddProject_closeModal()">CANCEL
+              </button>
+              <button type="submit" class="btn btn-primary btn-custom">SAVE</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-modal>

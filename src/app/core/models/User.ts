@@ -1,0 +1,36 @@
+export interface User {
+  pk_User_ID?: number;
+  User_Record_GUID?: string;
+  fk_Enterprise_ID?: number;
+  fk_Session_ID?: number;
+  fk_User_ID?: number;
+  User_Email?: string;
+  User_Password?: string;
+  User_FirstName?: string;
+  User_SecondName?: string;
+  User_StreetAddress?: string;
+  User_StreetAddress2?: string;
+  User_StreetAddress3?: string;
+  User_City?: string;
+  User_Region?: string;
+  User_Postcode?: string;
+  User_Country?: string;
+  User_CountryCode?: string;
+  User_PhoneNumberCountryCode?: string;
+  User_PhoneNumberAreaCode?: string;
+  User_PhoneNumber?: string;
+  User_PhoneNumberExtention?: string;
+  User_AlternateNumberCountryCode?: string;
+  User_AlternateNumberAreaCode?: string;
+  User_AlternateNumber?: string;
+  User_AlternateNumberExtention?: string;
+  User_TimeZone?: string;
+  User_DateOfRegistration?: string;
+  User_DateOfCreation?: string;
+  User_DateOfLastUpdate?: string;
+  User_Deleted?: number;
+  User_Status?: number;
+  User_AccessLevel?: number;
+  User_Initials?: string;
+  User_Colour?: string
+}

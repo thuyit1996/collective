@@ -1,0 +1,168 @@
+<app-modal [isModalOpen]="isModalOpen">
+  <div class="modal-content">
+    <div class="row">
+      <div class="col-2 register-page-avatar">
+        <div class="register-page-avatar__logo">
+          <!-- <img class="img-responsive" src="./assets/img/avatar-default.png" alt="logo-header"> -->
+          <div class="custom-avatar"
+            [ngStyle]="{'backgroundColor': userInformation?.User_Colour.length === 6 ?  ('#' + userInformation?.User_Colour) : '#d77373'}">
+            <span class="user-name">{{userInformation?.User_Initials || userInformation?.fallBackName}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-10 register-page-user-profile">
+        <div class="register-page-user-profile-content">
+          <form [formGroup]="modalRegisterFormGroup" (ngSubmit)="$modalRegister_onRegisterHandler()">
+            <div class="modal-header">
+              <h6 class="modal-title">{{modalHeader}}</h6>
+              <button type="button" class="btn btn-custom btn-close" data-dismiss="modal" aria-label="Close"
+                (click)="$modalRegister_closeModal()">
+                <!-- <i class="fa fa-times"></i> -->
+                CLOSE
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row mb-3">
+                <div class="col-md-6 form-group-mb-3 pr-8-md-up">
+                  <div class="form-group form-group-custom form-group-custom--first-name">
+                    <input type="text" class="form-control input-custom" placeholder="First Name"
+                      formControlName="User_FirstName">
+                    <label for="">First Name</label>
+                  </div>
+                </div>
+                <div class="col-md-6 pl-8-md-up">
+                  <div class="form-group form-group-custom form-group-custom--first-name">
+                    <input type="text" class="form-control input-custom" placeholder="Last Name"
+                      formControlName="User_SecondName">
+                    <label for="">Last name</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-md-12">
+                  <div class="form-group form-group-custom form-group-custom--address">
+                    <input type="text" class="form-control input-custom" placeholder="Address line 1"
+                      formControlName="User_StreetAddress">
+                    <label for="">Address line 1</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-md-12">
+                  <div class="form-group form-group-custom form-group-custom--address">
+                    <input type="text" class="form-control input-custom" placeholder="Address line 2"
+                      formControlName="User_StreetAddress2">
+                    <label for="">Address line 2</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-md-12">
+                  <div class="form-group form-group-custom form-group-custom--address">
+                    <input type="text" class="form-control input-custom" placeholder="Address line 3"
+                      formControlName="User_StreetAddress3">
+                    <label for="">Address line 3</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-md-12">
+                  <div class="form-group form-group-custom form-group-custom--city">
+                    <input type="text" class="form-control input-custom" placeholder="City" formControlName="User_City">
+                    <label for="">City</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-md-6 form-group-mb-3 pr-8-md-up">
+                  <div class="form-group form-group-custom form-group-custom--post-code">
+                    <input type="number" class="form-control input-custom" placeholder="Post code"
+                      formControlName="User_Postcode">
+                    <label for="">Post code</label>
+                  </div>
+                </div>
+                <div class="col-md-6 pl-8-md-up">
+                  <div class="form-group form-group-custom form-group-custom--region">
+                    <!-- <select name="" id="" class="form-control select-custom" formControlName="User_Region">
+                      <option value="">Choose region</option>
+                      <option value="Alaska">Alaska</option>
+                      <option value="American">American</option>
+                      <option value="Arizona">Arizona</option>
+                      <option value="Arkansas">Arkansas</option>
+                      <option value="California">California</option>
+                      <option value="Colorado">Colorado</option>
+                      <option value="Connecticut">Connecticut</option>
+                      <option value="Georgia">Georgia</option>
+                      <option value="Florida">Florida</option>
+                    </select> -->
+                    <input type="text" class="form-control input-custom" placeholder="Region"
+                      formControlName="User_Region">
+                    <label for="">Region</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-md-6 form-group-mb-3 pr-8-md-up">
+                  <div class="form-group form-group-custom form-group-custom--country">
+                    <select name="" id="" class="form-control select-custom" formControlName="User_Country">
+                      <option value="">Choose country</option>
+                      <option [ngValue]="country.code" *ngFor="let country of countryList">{{country.name}}</option>
+                      <!-- <option value="American">American</option>
+                      <option value="Brazil">Brazil</option>
+                      <option value="Mexico">Mexico</option>
+                      <option value="Japan">Japan</option> -->
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6 pl-8-md-up">
+                  <div class="form-group form-group-custom form-group-custom--timezone">
+                    <select name="" id="" class="form-control select-custom" formControlName="User_TimeZone">
+                      <option value="">Choose timezone</option>
+                      <option [ngValue]="timezone.value" *ngFor="let timezone of timezoneList">{{ timezone.name }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-xs-4 col-lg-2 pr-8-md-up">
+                  <div class="form-group form-group-custom form-group-custom--code">
+                    <select name="" id="" class="form-control select-custom"
+                      formControlName="User_PhoneNumberCountryCode">
+                      <option value="">Choose phone country code</option>
+                      <option [ngValue]="phoneCode.value" *ngFor="let phoneCode of phoneCodeList">{{ phoneCode.name }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-xs-8 col-lg-10 pl-8-md-up">
+                  <div class="form-group form-group-custom form-group-custom--phone">
+                    <input type="number" class="form-control input-custom" placeholder="Phone"
+                      formControlName="User_PhoneNumber">
+                    <label for="">Phone</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-12">
+                  <div class="form-group form-group-custom form-group-custom--email">
+                    <input type="email" class="form-control input-custom" placeholder="Email" formControlName="User_Email"
+                      readonly>
+                    <label for="">Email</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-custom btn-cancel" data-dismiss="modal"
+                (click)="$modalRegister_closeModal()">CANCEL
+              </button>
+              <button type="submit" class="btn btn-primary btn-custom">SAVE CHANGES</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</app-modal>

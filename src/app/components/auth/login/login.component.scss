@@ -1,0 +1,34 @@
+.info-form {
+  &__heading {
+    margin-bottom: 40px;
+  }
+
+  &__content {
+    margin-bottom: 20px;
+
+    &__connect-social {
+      &__icon {
+        img {
+          width: 40px;
+          margin-right: 15px;
+        }
+      }
+    }
+  }
+}
+
+
+.form-remind {
+  margin-top: 20px;
+  padding: 0 10px;
+}
+
+.form-forget-pass {
+  a {
+    color: #000000;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}

@@ -1,0 +1,63 @@
+<div class="header" *ngIf="vm$ | async as vm">
+  <div class="header__logo">
+    <a [routerLink]="['/']">
+      <img src="./assets/img/ScopalLogo.png" alt="header-logo">
+    </a>
+  </div>
+  <div class="header__dropdown">
+    <a href="#" class="header__dropdown__item dropdown-toggle" data-toggle="dropdown">
+      {{vm.selectProject?.projectName ||  'Project name'}}</a>
+    <div class="dropdown-menu dropdown-menu-project">
+      <span class="dropdown-item" *ngFor="let item of vm.projectList"
+        [ngClass]="{'active': item?.pk_Project_ID === vm.selectProject?.projectId}"
+        (click)="$header_selectProject(item?.pk_Project_ID, item?.Project_Name)">{{item.Project_Name}}</span>
+    </div>
+  </div>
+  <div class="header__option d-flex">
+    <div class="header__option__item header__option__item--menu">
+      <img src="./assets/img/Main_Menu_Icon.png" alt="main-menu" aria-hidden="true" data-toggle="dropdown">
+      <div class="dropdown-menu">
+        <div class="dropdown-menu-element" *ngFor="let item of menuList ; index as i">
+          <a [routerLink]="item.url" class="dropdown-item" routerLinkActive="menu-active"
+            (click)="$header_hiddenMenu()">
+            <img [src]="item.image" alt="">
+            <span>{{item.name}}</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="header__option__user">
+      <div class="header__option__item--account" data-toggle="dropdown">
+        <span
+          [ngStyle]="{'backgroundColor': userInformation?.User_Colour.length === 6 ?  ('#' + userInformation?.User_Colour) : '#d77373'}"
+          class="header__option__item--account__username">{{userInformation?.User_Initials ||  userInformation?.fallBackName}}</span>
+        <img src="./assets/img/DropDown_Arrow_Grey.png" alt="dropdown-menu">
+      </div>
+      <div class="dropdown-menu">
+        <div class="dropdown-menu-element">
+          <a href=""
+            [ngStyle]="{'backgroundColor': userInformation?.User_Colour.length === 6 ?  ('#' + userInformation?.User_Colour) : '#d77373'}">{{userInformation?.User_Initials ||  userInformation?.fallBackName}}</a>
+          <span>{{ (userInformation?.User_FirstName && userInformation?.User_SecondName) ? (userInformation?.User_FirstName + ' ' + userInformation?.User_SecondName) : userInformation?.fallBackName}}</span>
+        </div>
+        <ul>
+          <li>
+            <a href="#" class="dropdown-item" (click)="$header_addInfomation($event)">
+              <i-feather name="user"></i-feather>User Profile
+            </a>
+          </li>
+          <li>
+            <a href="#" class="dropdown-item">
+              <i class="fa fa-building-o" aria-hidden="true"></i> Enterprise Profile
+            </a>
+          </li>
+          <li>
+            <a href="#" class="dropdown-item">
+              <i-feather name="settings"></i-feather>User Settings
+            </a>
+          </li>
+        </ul>
+        <button type="submit" class="btn btn-primary btn-custom" (click)="$header_onLogout($event)">Sign Out</button>
+      </div>
+    </div>
+  </div>
+</div>

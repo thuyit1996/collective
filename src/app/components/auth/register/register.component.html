@@ -1,0 +1,56 @@
+<div *ngIf="vm$ | async as vm">
+  <app-loading [isLoading]="vm.isLoading"></app-loading>
+</div>
+<div class="row">
+  <div class="col-lg-7">
+    <div class="register-page__content__image">
+      <img class="w-100" src="./assets/img/Register.png" alt="banner-login">
+    </div>
+  </div>
+  <div class="col-lg-5">
+    <div class="register-form">
+      <div class="register-form__title">
+        <h2>Register</h2>
+      </div>
+      <div class="register-form__content">
+        <form [formGroup]="registerFormGroup">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group form-group-custom form-group-custom--email">
+                <input type="text" class="form-control input-custom" placeholder="Email" required
+                  formControlName="Email">
+                <label for="">Email</label>
+              </div>
+            </div>
+          </div>
+          <div [formGroup]="passwordFormGroup">
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group form-group-custom form-group-custom--password">
+                  <input type="password" class="form-control input-custom" placeholder="Password" required
+                    formControlName="Password">
+                  <label for="">Password</label>
+                </div>
+              </div>
+            </div>
+            <div class="row password-confirm">
+              <div class="col-12">
+                <div class="form-group form-group-custom form-group-custom--password">
+                  <input type="password" class="form-control input-custom" placeholder="Confirm Password" required
+                    formControlName="Confirmpassword">
+                  <label for="">Confirm Password</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-custom text-center d-inline-block btn-custom--register"
+              (click)="$register_onRegister()">Submit</button>
+            <button type="button" class="btn btn-custom text-center d-inline-block btn-custom--create-account"
+              [routerLink]="['/auth']">Login</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,211 @@
+.header {
+  // border-top: 3px solid #448aff;
+  margin-left: 0px;
+
+  // @media (min-width: 1201px) {
+  //   margin-left: 75px;
+  // }
+  &__logo {
+    img {
+      width: 85px;
+      @media (min-width: 768px) {
+        width: 145px;
+      }
+    }
+  }
+
+  &__dropdown {
+    .dropdown-item {
+      cursor: pointer;
+
+      &.active {
+        background: #eeeeee;
+        color: #5d5d5d;
+      }
+    }
+
+    &__item {
+      color: #448aff;
+      font-size: 12px;
+      font-weight: 600;
+      @media (min-width: 768px) {
+        font-size: 15px;
+      }
+      &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        border: none;
+        width: 12px;
+        height: 12px;
+        margin-left: 5px;
+        background-image: url("../../../assets/img/DropDown_Arrow_Blue.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+      }
+    }
+  }
+
+  &__option {
+    &__item {
+      cursor: pointer;
+
+      &--menu {
+        position: relative;
+        margin-right: 20px;
+
+        .dropdown-menu {
+          // width: 295px !important override app.min.css
+          width: 295px !important; 
+          padding: 10px;
+          top: 0 !important;
+          right: 0 !important;
+          left: auto !important;
+          transform: translate3d(10px, 40px, 0px) !important;
+
+          .show {
+            top: 0 !important;
+            right: 0 !important;
+            left: auto !important;
+          }
+
+          .dropdown-menu-element {
+            width: 50%;
+            height: 137px;
+            border-radius: 10px;
+            display: inline-block;
+            margin: 0;
+
+            .dropdown-item {
+              height: 100%;
+              border-radius: 10px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-direction: column;
+
+              img {
+                display: list-item;
+                width: 100%;
+                margin-bottom: 10px;
+                width: 68.96px;
+              }
+
+              span {
+                color: #448aff;
+                font-size: 16px;
+              }
+            }
+
+            .menu-active {
+              background: #eeeeee;
+            }
+          }
+        }
+      }
+
+      &--account {
+        cursor: pointer;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &__username {
+          color: #fff;
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          background-color: #5d5d5d;
+          margin-right: 6px;
+          text-transform: uppercase;
+          font-weight: 600;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          display: flex;
+        }
+
+        img {
+          display: inline-block;
+        }
+
+      }
+    }
+    &__user {
+      position: relative;
+      .dropdown-menu {
+        top: 0 !important;
+        right: 0 !important;
+        left: auto !important;
+        transform: translate3d(10px, 40px, 0px) !important;
+        font-size: 16px;
+        color: #5d5d5d;
+        padding: 28px 10px 10px 10px;
+        width: 256px;
+      
+        .show {
+          top: 0 !important;
+          right: 0 !important;
+          left: auto !important;
+        }
+      
+        &-element {
+          cursor: auto;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin-bottom: 45px;
+      
+          a {
+            background-color: #5d5d5d;
+            width: 105px;
+            height: 105px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 54px;
+            margin-bottom: 20px;
+            color: #fff;
+          }
+      
+          span {
+            font-size: 18px;
+          }
+        }
+      
+        ul {
+          margin-bottom: 15px;
+      
+          a {
+            padding-left: 10px;
+      
+            i {
+              width: 24px;
+              font-size: 18px;
+              margin-left: 2px;
+            }
+          }
+        }
+      
+        .btn-custom {
+          width: 100%;
+          text-align: center;
+          display: flex;
+          justify-content: center;
+          border-radius: 8px;
+          background: #448aff;
+          font-size: 16px;
+      
+          &:hover {
+            background-color: #0047a2;
+          }
+        }
+      }
+    }
+  }
+}
+

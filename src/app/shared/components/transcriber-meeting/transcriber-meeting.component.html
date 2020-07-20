@@ -1,0 +1,130 @@
+<div class="modal-content meeting-discussion" *ngIf="vm$ | async as vm"
+  [ngStyle]="!meetingSelected && {'background-color': 'transparent'}">
+  <div class=" row">
+    <div class="col-5 agenda-items" [ngStyle]="!meetingSelected && {'background-color': 'transparent'}">
+      <div class="agenda-items-content" *ngIf="meetingSelected">
+        <h6>Agenda Items</h6>
+        <p class="agenda-items__item">
+          Agenda Item 1
+        </p>
+        <p class="agenda-items__item">
+          Agenda Item 2
+        </p>
+      </div>
+    </div>
+    <div class="col-2 modal-avatars modal-avatars-container" [ngClass]="{'no-chosen-meeting': !meetingSelected}">
+      <div class="modal-avatars-content">
+        <div class="modal-avatars__image">
+          <div class="modal-avatars__attendees" cdkDropList #todoList="cdkDropList" [cdkDropListData]="attendeesList"
+            [cdkDropListConnectedTo]="[doneList, modalBody]" (cdkDropListDropped)="$transcriberMeeting_onDrop($event)">
+
+            <div class="modal-avatars__attendees__title" id="headingApologies">
+              <div data-toggle="collapse" data-target="#collapseAttendees" aria-expanded="true"
+                aria-controls="collapseAttendees" class="accordion-header"
+                style="position: relative;margin-bottom: 10px;" (click)="isCollapseAttendees = !isCollapseAttendees">
+                <h6 style="float: left;">Attendees</h6>
+                <i class="fa icon-collapse-attendees"
+                  [ngClass]="isCollapseAttendees ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
+              </div>
+            </div>
+
+            <div class="joining-users" id="collapseAttendees" class="joining-users collapse show" aria-labelledby="headingApologies">
+              <div class="joining-users__user user-avatar" *ngFor="let item of attendeesList"
+                [ngStyle]="{'backgroundColor':  item?.User_Colour.length === 6  ? ('#'+ item?.User_Colour) : '#c0392b'}" cdkDrag
+                [cdkDragData]="item">
+                <span class="user-name">{{item?.User_Initials || item?.fallbackName}}</span>
+              </div>
+            </div>
+
+          </div>
+          <div class="modal-avatars__attendees apologises" cdkDropList #doneList="cdkDropList"
+            [cdkDropListData]="apologisesList" [cdkDropListConnectedTo]="todoList"
+            (cdkDropListDropped)="$transcriberMeeting_onDrop($event)">
+
+            <div class="modal-avatars__attendees__title" id="headingApologies">
+              <div data-toggle="collapse" data-target="#collapseApologies" aria-expanded="true"
+                aria-controls="collapseApologies" class="accordion-header" style="position: relative;"
+                (click)="isCollapseApologies = !isCollapseApologies">
+                <h6 class="apologise-title" style="float: left;">Apologises</h6>
+                <i class="fa apologise-title icon-collapse"
+                  [ngClass]="isCollapseApologies ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
+              </div>
+            </div>
+
+            <div id="collapseApologies" class="joining-users collapse show" aria-labelledby="headingApologies">
+              <div class="joining-users">
+                <div class="joining-users__user user-plus user-avatar"
+                  (click)="$transcriberMeeting_openModalGetUsers()">
+                  <img src="./assets/img/plus2.png" alt="">
+                </div>
+              </div>
+              <div class="joining-users">
+                <div class="joining-users__user user-avatar" *ngFor="let item of apologisesList"
+                  [ngStyle]="{'backgroundColor':  item?.User_Colour.length === 6  ? ('#'+ item?.User_Colour) : '#c0392b'}" cdkDrag>
+                  <span class="user-name">{{item?.User_Initials || item?.fallbackName}}</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-5 discussion-info">
+      <div class="discussion-info-content">
+        <div class="modal-header">
+          <div class="modal-header__meeting-list" aria-hidden="true" data-toggle="dropdown">
+            <h6 class="">{{ (meetingSelected?.Meeting_Name || 'Meetings') | truncate:['20', '...'] }}</h6>
+            <i class="fa fa-chevron-down"></i>
+            <div class="dropdown-menu" *ngIf="relativeMeetingList?.length else noMeeting">
+              <span class="dropdown-item dropdown-custom" *ngFor="let item of relativeMeetingList"
+                (click)="$transcriberMeeting_selectMeeting(item?.pk_Meeting_ID)"
+                [ngClass]="{'meeting-select': meetingSelected?.pk_Meeting_ID === item?.pk_Meeting_ID}">
+                {{ item?.Meeting_Name || ''}}
+              </span>
+            </div>
+            <ng-template #noMeeting>
+              <div class="dropdown-menu">
+                <span class="dropdown-item dropdown-custom">No meeting here</span>
+              </div>
+            </ng-template>
+          </div>
+          <div class="modal-header__meeting-kind">
+            <div class="modal-header__meeting-kind__item" *ngFor="let meetingType of meetingTypes; index as i">
+              <i-feather [name]="meetingType.name" [ngClass]="{active: meetingType?.isActive}"
+                (click)="$transcriberMeeting_activeMeetingType(i)"></i-feather>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-custom modal-header__save close-modal"
+            [ngClass]="{'none-event': isDisabledButton }" (click)="$transcriberMeeting_saveMeeting()">
+            SAVE
+          </button>
+        </div>
+        <div class="modal-body" cdkDropList #modalBody="cdkDropList" [cdkDropListConnectedTo]="todoList"
+          (cdkDropListDropped)="$transcriberMeeting_onDropUserToModalBody($event)">
+          <div class="modal-body__chat-item"
+            *ngFor="let item of listTranscriberByMeeting; trackBy: $transcriberMeeting_trackById"
+            [ngClass]="{'chat-right-side': item?.isRightPosition}">
+            <p class="modal-body__chat-item__chat-item-info">{{ $transcriberMeeting_findUser(item?.fk_User_ID) }}
+              {{ item?.MeetingTransscriptItem_DateOfCreation| date:"hh:mm a"}}</p>
+            <div class="modal-body__chat-item__chat-item-message" [ngClass]="{'message-right': item?.isRightPosition}"
+              contenteditable (focus)="$transcriberMeeting_focus(item?.MeetingTranscriptItem_Note || '')"
+              (focusout)="$transcriberMeeting_focusout(item)" (input)="contentTranscriber = $event.target.innerText">
+              {{item?.MeetingTranscriptItem_Note || ''}}
+            </div>
+            <!-- <i class="fa fa-times delete-transcriber" *ngIf="item.itemCanDelete"
+              (click)="$transcriberMeeting_deleteTransriberMeeting(item?.randomId)"></i> -->
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="form-group form-group-custom form-group-custom--notes">
+            <textarea rows="3" placeholder="Capture project information here...."
+              [(ngModel)]="transcriberMeetingNote"></textarea>
+          </div>
+          <button class="btn btn-primary btn-custom btn-post" type="submit"
+            (click)="$transcriberMeeting_addTranscriberMeeting()">POST</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

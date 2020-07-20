@@ -1,0 +1,50 @@
+.register-page-avatar {
+  background-color: #d4d4d4;
+  flex: 0 0 15%;
+  max-width: 15%;
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+
+  &__logo {
+    padding-top: 20px;
+
+    img {
+      width: auto;
+      max-width: 100%;
+    }
+
+    .custom-avatar {
+      margin: 0 auto;
+      width: 50px;
+      height: 50px;
+      text-align: center;
+      line-height: 52px;
+      border-radius: 50%;
+      @media (min-width: 992px) {
+        width: 80px;
+        height: 80px;
+        line-height: 82px;
+      }
+
+      .user-name {
+        font-size: 24px;
+        font-weight: 600;
+        @media (min-width: 992px) {
+          font-size: 42px;
+        }
+      }
+    }
+  }
+}
+
+.register-page-user-profile {
+  background: #d4d4d4;
+  border-radius: 0 1rem 1rem 0;
+  flex: 0 0 85%;
+  max-width: 85%;
+  padding: 0;
+  &-content {
+    background: #fff;
+    border-radius: 1rem;
+  }
+}

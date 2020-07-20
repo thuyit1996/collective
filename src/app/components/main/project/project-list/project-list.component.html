@@ -1,0 +1,59 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <ng-container *ngIf="vm?.projects?.length; else noData">
+    <div class="meeting-list-header">
+      <h4 class="meeting-list-header__title">{{ ProjectTableTitle }}</h4>
+      <ul class="nav nav-tabs mb-3 meeting-list-header__filter">
+        <li class="nav-item">
+          <a class="nav-link active" id="all-tab" data-toggle="tab">All</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="past-tab" data-toggle="tab">Past</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="upcoming-tab" data-toggle="tab">Upcoming</a>
+        </li>
+      </ul>
+    </div>
+    <div class="table-responsive fade show active table-meeting">
+      <table class="table">
+        <thead>
+          <tr>
+            <th *ngFor="let column of columnOption" id="{{column.columnId}}">
+              {{column.columnName}}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let project of vm.projects;trackBy: $projectList_trackById">
+            <td>
+              <span class="meeting-name">{{project?.Project_Name}}</span>
+              <br>
+              <span class="meeting-des">{{project?.Project_Description | truncate:['20', '...']}}</span>
+            </td>
+            <td>{{project?.Project_StartDate | date:'dd/MM/yyyy'}}</td>
+            <td>{{project?.Project_DueDate | date:'h:mm aa'}}</td>
+            <td>
+              <span class="meeting-type" [ngClass]="project?.Color">{{project?.fk_Enterprise_ID}}</span>
+            </td>
+            <td>{{project?.Project_Status}}</td>
+            <td class="meeting-action">
+              <img class="view-more" src="./assets/img/icon-load-more.svg" alt="load more" aria-hidden="true"
+                data-toggle="dropdown">
+              <div class="dropdown-menu">
+                <span class="dropdown-item dropdown-custom" (click)="$projectList_editProject(project?.pk_Project_ID)">
+                  <i-feather name="edit"></i-feather>Edit
+                </span>
+                <span class="dropdown-item dropdown-custom"
+                  (click)="$projectList_deleteProject(project?.pk_Project_ID)">
+                  <i-feather name="trash-2"></i-feather>Delete
+                </span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
+  <ng-template #noData>
+  </ng-template>
+</ng-container>

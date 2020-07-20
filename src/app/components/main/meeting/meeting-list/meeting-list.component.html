@@ -1,0 +1,78 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <ng-container *ngIf="vm?.meetings?.length; else noData">
+    <div class="meeting-list-header">
+      <h4 class="meeting-list-header__title">{{ MeetingTableTitle }}</h4>
+      <ul class="nav nav-tabs mb-3 meeting-list-header__filter">
+        <li class="nav-item">
+          <a class="nav-link active" id="all-tab" data-toggle="tab">All</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="past-tab" data-toggle="tab">Past</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="upcoming-tab" data-toggle="tab">Upcoming</a>
+        </li>
+      </ul>
+    </div>
+    <div class="table-responsive fade show active table-meeting">
+      <table class="table">
+        <thead>
+          <tr>
+            <th *ngFor="let column of columnOption" id="{{column.columnId}}">
+              {{column.columnName}}
+            </th>
+          </tr>
+        </thead>
+        <tbody *ngIf="$meetingList_filterMeetingByProject(vm.meetings, vm.projectSelected)?.length else noData">
+          <tr
+            *ngFor="let meeting of $meetingList_filterMeetingByProject(vm.meetings, vm.projectSelected);trackBy: $meetingList_trackById">
+            <td>
+              <span class="meeting-name">{{meeting?.Meeting_Name}}</span>
+              <br>
+              <span class="meeting-des">{{meeting?.Meeting_Description | truncate:['20', '...']}}</span>
+            </td>
+            <td>{{meeting?.Meeting_ScheduledStartTime | date:'d/M/yyyy'}}</td>
+            <td>{{meeting?.Meeting_ScheduledStartTime | date:'h:mm aa'}}</td>
+            <td class="meeting-type-icon">
+              <span>
+                <i-feather *ngIf="meeting?.fk_Meeting_Type_ID !== 1"
+                  name="{{meeting?.fk_Meeting_Type_ID | transformIcon}}"></i-feather>
+              </span>{{meeting?.fk_Meeting_Type_ID | transformType}}</td>
+            <td>
+              <span class="meeting-type"
+                [ngStyle]="{'backgroundColor': $meetingList_getColorStatus(meeting?.Meeting_Status)?.color }">
+                {{$meetingList_getColorStatus(meeting?.Meeting_Status)?.name}}
+              </span>
+            </td>
+            <td class="meeting-action">
+              <img class="view-more" src="./assets/img/icon-load-more.svg" alt="load more" data-toggle="dropdown">
+              <div class="dropdown-menu">
+                <span class="dropdown-item dropdown-custom"
+                  (click)="$meetingList_editMeeting(meeting?.pk_Meeting_ID,meeting?.fk_Enterprise_ID)">
+                  <i-feather name="edit"></i-feather>Edit
+                </span>
+                <span class="dropdown-item dropdown-custom"
+                  (click)="$meetingList_deleteMeeting(meeting?.pk_Meeting_ID)">
+                  <i-feather name="trash-2"></i-feather>Delete
+                </span>
+                <span *ngIf="meeting?.Meeting_Status === 1" class="dropdown-item dropdown-custom"
+                  (click)="$meetingList_navigateToMeetingMinutes(meeting?.pk_Meeting_ID)">
+                  <i-feather name="plus-circle"></i-feather>Generate Minutes
+                </span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+        <ng-template #noData>
+          <tbody>
+            <tr>
+              <td style="text-align: left;">Meeting not found</td>
+            </tr>
+          </tbody>
+        </ng-template>
+      </table>
+    </div>
+  </ng-container>
+</ng-container>
+<ng-template #noData>
+</ng-template>

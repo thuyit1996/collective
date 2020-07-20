@@ -1,0 +1,119 @@
+<div class="row meeting-minutes-container">
+  <div class="col-9 meeting-minutes-container__main">
+    <div class="meeting-minutes-container__main__title">
+      <h4>Meeting Minutes</h4>
+      <h6>{{ meetingDetail?.Meeting_Name}}</h6>
+      <span><label>Date</label>
+        <br />
+        <span class="meeting-minutes-info">{{ meetingDetail?.Meeting_ScheduledStartTime | date:'d/M/yyyy' }}</span>
+      </span>
+      <span><label>Time</label>
+        <br />
+        <span class="meeting-minutes-info">{{ meetingDetail?.Meeting_ScheduledStartTime | date:'h:mm aa' }}</span>
+      </span>
+      <span><label>Type</label>
+        <br>
+        <span class="meeting-minutes-info meeting-type-icon">
+          <i-feather *ngIf="meetingDetail?.fk_Meeting_Type_ID !== 1"
+            name="{{meetingDetail?.fk_Meeting_Type_ID | transformIcon}}"></i-feather>
+          {{ meetingDetail?.fk_Meeting_Type_ID | transformType }}
+        </span>
+      </span>
+      <span><label>Status</label>
+        <br>
+        <span [ngStyle]="{'backgroundColor': $meetingMinutes_getColorStatus(meetingDetail?.Meeting_Status)?.color }"
+          class="meeting-minutes-status">{{ $meetingMinutes_getColorStatus(meetingDetail?.Meeting_Status)?.name }}</span>
+      </span>
+    </div>
+    <div class="meeting-minutes-container__main__users">
+      <div class="minutes-users-content">
+        <div class="minutes-users-content__attendees">
+          <h6>Attendees</h6>
+          <div class="minutes-users-content__attendees__list" cdkDropList #attendeesDragList="cdkDropList"
+            [cdkDropListData]="attendeesList" [cdkDropListConnectedTo]="[apologiseDragList]"
+            (cdkDropListDropped)="$meetingMinutes_onDrop($event)" cdkDropListOrientation="horizontal">
+            <div class="user-avatar" *ngFor="let item of attendeesList"
+              [ngStyle]="{'backgroundColor':  item?.User_Colour?.length === 6  ? ('#'+ item?.User_Colour) : '#c0392b'}"
+              cdkDrag>
+              <span class="user-name">
+                {{item?.User_Initials || item?.fallbackName}}
+              </span>
+            </div>
+          </div>
+          <div class="user-plus user-avatar" (click)="$meetingMinutes_addUser()">
+            <img src="./assets/img/plus2.png" alt="">
+          </div>
+        </div>
+        <div class="minutes-users-content__attendees" cdkDropList cdkDropListOrientation="horizontal"
+          #apologiseDragList="cdkDropList" [cdkDropListData]="apologisesList"
+          [cdkDropListConnectedTo]="attendeesDragList" (cdkDropListDropped)="$meetingMinutes_onDrop($event)">
+          <h6 class="apologise-title">Apologises</h6>
+          <div class="minutes-users-content__attendees__list">
+            <div class="user-avatar" *ngFor="let item of apologisesList"
+              [ngStyle]="{'backgroundColor':  item?.User_Colour?.length === 6  ? ('#'+ item?.User_Colour) : '#c0392b'}"
+              cdkDrag>
+              <span class="user-name">
+                {{item?.User_Initials || item?.fallbackName}}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="meeting-minutes-container__main__comment" cdkDropList #ckditor="cdkDropList"
+      [cdkDropListConnectedTo]="todoList" (cdkDropListDropped)="$meetingMinutes_onDropUserToCkditor($event)">
+      <div class="minutes-comment-content">
+        <ck-editor name="editor1" [(ngModel)]="editorValue">
+        </ck-editor>
+        <button type="submit" class="btn btn-primary btn-custom"
+          (click)="$meetingMinutes_saveMeetingMinutes()">SAVE</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-3 meeting-minutes-container__description">
+    <div class="meeting-minutes-container__description__agenda-items">
+      <h6>Agenda Items</h6>
+      <ul>
+        <li>
+          <span class="green-dot"></span>
+          <a [ngStyle]="{'color': true ? '#D6D6D6' : '#5d5d5d'}">Agenda Item 1</a>
+        </li>
+        <li>
+          <span class="green-dot"></span>
+          <a [ngStyle]="{'color': true ? '#D6D6D6' : '#5d5d5d'}">Agenda Item 2</a>
+        </li>
+        <li>
+          <span class="white-dot"></span>
+          <a>Agenda Item 3</a>
+        </li>
+        <li>
+          <span class="white-dot"></span>
+          <a>Agenda Item 4</a>
+        </li>
+      </ul>
+    </div>
+    <div class="meeting-minutes-container__description__meeting-trans" cdkDropList #todoList="cdkDropList"
+      [cdkDropListData]="meetingTranscriberList" [cdkDropListConnectedTo]="ckditor"
+      (cdkDropListDropped)="$meetingMinutes_cancelDrag()">
+      <h6>Meeting Transcript</h6>
+      <p>Drop Transcript lines onto the text area to use int the minutes</p>
+      <app-meeting-minutes-loading *ngIf="isLoading else getData" [ghosts]="ghosts" fxLayout="row wrap">
+      </app-meeting-minutes-loading>
+      <ng-template #getData>
+        <div class="meeting-trans-item" *ngFor="let item of meetingTranscriberList" cdkDrag #dragItem>
+          <img class="meeting-trans-item__grip-dots" src="./assets/img/grip_dots.png" alt="">
+          <div class="meeting-trans-item__info">
+            <div class="user-avatar"
+              [ngStyle]="{'backgroundColor': ('#'+$meetingMinutes_getUser(item.fk_User_ID)?.color)}">
+              <span class="user-name">{{$meetingMinutes_getUser(item.fk_User_ID)?.initialName}}</span>
+            </div>
+            <span>{{item?.MeetingTransscriptItem_DateOfCreation| date:"hh:mm a"}}</span>
+          </div>
+          <div class="meeting-trans-item__content">
+            {{ (item.MeetingTranscriptItem_Note || '') }}
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

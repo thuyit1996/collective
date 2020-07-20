@@ -1,0 +1,21 @@
+.register-form {
+  &__title {
+    margin-bottom: 20px;
+    @media (min-width: 768px) {
+      margin-bottom: 30px;
+    }
+    h2 {
+      font-size: 26px;
+    }
+  }
+  &__content {
+    .form-group-custom {
+      .input-custom {
+        padding: 36px 30px 22px 65px;
+      }
+    }
+  }
+  .password-confirm {
+    margin-bottom: 20px;
+  }
+}

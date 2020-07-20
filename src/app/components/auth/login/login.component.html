@@ -1,0 +1,48 @@
+<div *ngIf="vm$ | async as vm">
+  <app-loading [isLoading]="vm.isLoading"></app-loading>
+</div>
+<div class="row">
+  <div class="col-lg-7">
+    <div class="register-page__content__image">
+      <img class="w-100" src="./assets/img/SignIn.png" alt="banner-login">
+    </div>
+  </div>
+  <div class="col-lg-5">
+    <div class="login-page__content__info-form">
+      <div class="info-form__heading">
+        <h2 class="info-form__heading__title"> Welcome Back :)</h2>
+        <p class="info-form__heading__desc">
+          To keep connected width us please login with your personal information by email address and password
+        </p>
+      </div>
+      <div class="info-form__content">
+        <form [formGroup]="loginFormGroup" (ngSubmit)="$login_onLoginHandler()">
+          <div class="form-group form-group-custom form-group-custom--email">
+            <input type="email" class="form-control input-custom" placeholder="Enter mail" id=""
+              formControlName="Auth_Email">
+            <label for="">Email Address</label>
+          </div>
+          <div class="form-group form-group-custom form-group-custom--password">
+            <input type="password" class="form-control input-custom" placeholder="Enter Password" id=""
+              formControlName="Auth_Password">
+            <label for="">Password</label>
+          </div>
+          <div class="form-group d-flex justify-content-between form-remind">
+            <div class="checkbox-custom">
+              <input type="checkbox" id="remember-me" (change)="$login_rememberMe($event)">
+              <label for="remember-me">Remember Me</label>
+            </div>
+            <div class="form-forget-pass">
+              <a href="#"> Forget Password?</a>
+            </div>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-custom btn-custom--login">Login Now</button>
+            <button class="btn btn-custom btn-custom--create-account" [routerLink]="['/auth','register']">Create
+              Account</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

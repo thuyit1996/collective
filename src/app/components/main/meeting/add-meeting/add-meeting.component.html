@@ -1,0 +1,124 @@
+<app-modal [isModalOpen]="isModalOpen">
+  <div class="modal-content">
+    <div class="row">
+      <div class="col-2 modal-avatars" cdkDropList #todoList="cdkDropList" [cdkDropListData]="listUser"
+        [cdkDropListConnectedTo]="[doneList]" (cdkDropListDropped)="$modalAddMeeting_onDrop($event)">
+        <div class="modal-avatars__image">
+          <div class="user-information"
+            [ngStyle]="{'backgroundColor':  userInformation?.User_Colour.length === 6 ?  ('#' + userInformation?.User_Colour) : '#d77373'}">
+            <span class="user-name">{{userInformation?.User_Initials ||  userInformation?.fallBackName}}</span>
+          </div>
+          <div class="joining-users">
+            <p>Team</p>
+            <!-- <div class="joining-users__user user-avatar" *ngFor="let item of listUser"
+                        [ngStyle]="!item?.avatar  && {'backgroundColor': item.color}" cdkDrag>
+                        <img class=" img-responsive user-avatar" *ngIf="item?.avatar else notAvatar"
+                            [src]="item?.avatar" alt="logo-header">
+                        <ng-template #notAvatar>
+                            <span>{{item.name}}</span>
+                        </ng-template>
+                    </div> -->
+            <div class="joining-users__user user-avatar" *ngFor="let item of listUser ; index as i"
+              [ngStyle]="{'backgroundColor':  item?.User_Colour.length === 6  ? ('#'+ item?.User_Colour) : '#d77373'}"
+              cdkDrag>
+              <span class="user-name">{{item?.User_Initials || item?.fallbackName}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-10 modal-info">
+        <div class="modal-info-content">
+          <form [formGroup]="modalAddMeetingFormGroup" (ngSubmit)="$modalAddMeeting_onAddMeetingHandler()">
+            <div class="modal-header">
+              <h6 class="modal-title">{{modalHeader}}</h6>
+              <button type="button" class="btn btn-custom btn-close" data-dismiss="modal" aria-label="Close"
+                (click)="$modalAddMeeting_closeModal()">
+                <!-- <i class="fa fa-times"></i> -->
+                CLOSE
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row mb-3">
+                <div class="col-12">
+                  <div class="form-group form-group-custom form-group-custom--meeting-title">
+                    <input type="text" class="form-control input-custom" placeholder="Enter Meeting Title"
+                      formControlName="Meeting_title">
+                    <label for="">Enter Meeting Title</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-lg-4 form-group-lg-mb-3 pr-8">
+                  <div class="form-group form-group-custom form-group-custom--start-time">
+                    <input type="text" class="form-control input-custom" placeholder="Start Time"
+                      formControlName="Start_time" name="start-time" [owlDateTime]="dt" [owlDateTimeTrigger]="dt"
+                      [(ngModel)]="startDate">
+                    <owl-date-time #dt></owl-date-time>
+                    <label for="">Start Time</label>
+                  </div>
+                </div>
+                <div class="col-lg-4 form-group-lg-mb-3 pl-8 pr-8">
+                  <div class="form-group form-group-custom form-group-custom--end-time">
+                    <input type="text" class="form-control input-custom" placeholder="End Time"
+                      formControlName="End_time" name="end-time" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1"
+                      [(ngModel)]="endDate">
+                    <owl-date-time #dt1></owl-date-time>
+                    <label for="">End Time</label>
+                  </div>
+                </div>
+                <div class="col-lg-4 pl-8">
+                  <div class="form-group form-group-custom form-group-custom--duration">
+                    <input type="text" class="form-control input-custom" placeholder="Duration"
+                      formControlName="duration" name="duration-time" [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2"
+                      [(ngModel)]="dueDate">
+                    <owl-date-time #dt2></owl-date-time>
+                    <label for="">Duration</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-12">
+                  <div class="form-group form-group-custom form-group-custom--meeting-location">
+                    <input type="text" class="form-control input-custom" placeholder="Meeting Location"
+                      formControlName="Meeting_location">
+                    <label for="">Meeting Location</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-md-12">
+                  <p>Reoccuring ... </p>
+                </div>
+              </div>
+              <div class="row mb-3 row-margin-0">
+                <div class="col-md-12 user-drag" cdkDropList cdkDropListOrientation="horizontal" #doneList="cdkDropList"
+                  [cdkDropListData]="listUserChosen" [cdkDropListConnectedTo]="todoList"
+                  (cdkDropListDropped)="$modalAddMeeting_onDrop($event)">
+                  <div class="user user-avatar" *ngFor="let item of listUserChosen || []"
+                    [ngStyle]="{'backgroundColor':  item?.User_Colour.length === 6  ? ('#'+ item?.User_Colour) : '#d77373'}"
+                    cdkDrag>
+                    <span class="user-name">{{item?.User_Initials || item?.fallbackName}}</span>
+                  </div>
+                  <p *ngIf="isShowDragText">Drag meeting attendees to this area</p> 
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-md-12">
+                  <div class="form-group form-group-custom form-group-custom--notes">
+                    <textarea rows="6" cols="50" placeholder="Notes" formControlName="Meeting_note"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-custom btn-cancel" data-dismiss="modal"
+                (click)="$modalAddMeeting_closeModal()">CANCEL
+              </button>
+              <button type="submit" class="btn btn-primary btn-custom">SAVE</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-modal>

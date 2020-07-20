@@ -1,0 +1,42 @@
+<app-modal [isModalOpen]="isModalOpen">
+  <div class="modal-content">
+    <div class="row">
+      <div class="col-12 p-0">
+        <div class="modal-header">
+          <h6 class="modal-title">{{modalHeader}}</h6>
+          <button type="button" class="btn btn-custom btn-close" data-dismiss="modal" aria-label="Close"
+            (click)="$usersList_closeModal('close')">
+            CLOSE
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12">
+              <p class="modal-title">All Users</p>
+              <div class="user-drag">
+                <label class="user-avatar" *ngFor="let item of usersList || []; index as ind"
+                  [ngStyle]="{'backgroundColor':  item?.User_Colour.length === 6 ? ('#'+ item?.User_Colour) : '#d77373'}">{{item?.User_Initials || item?.fallbackName}}
+                  <input type="checkbox" (change)="$usersList_changeUser(ind)" [checked]="item.isChecked">
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+              <p class="modal-title">Users Selected</p>
+              <div class="user-drag">
+                <label class="user-avatar" *ngFor="let item of usersListChosen || []; index as ind"
+                  [ngStyle]="{'backgroundColor':  item?.User_Colour.length === 6 ? ('#'+ item?.User_Colour) : '#d77373'}">{{item?.User_Initials || item?.fallbackName}}
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-custom btn-cancel" data-dismiss="modal"
+            (click)="$usersList_closeModal('close')">CANCEL
+          </button>
+          <button type="submit" class="btn btn-primary btn-custom"
+            (click)="$usersList_submitListUsersSelected()">SAVE</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-modal>

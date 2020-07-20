@@ -1,0 +1,39 @@
+#page-content-wrapper {
+  width: 100%;
+  position: absolute;
+  padding: 15px;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-top: 0;
+  border-top: 4px solid #448aff;
+  background: #ebebee;
+  height: 100%;
+  margin-right: 0px;
+}
+
+#card.card-body {
+  width: auto;
+
+}
+
+div.top-break {
+  border-bottom: 1px solid lightgray;
+  width: 100%;
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  height: 45px;
+  padding-top: 10px;
+  padding-left: 15px;
+  background-color: #FFFFFF;
+
+}
+
+.progress {
+  height: 4px;
+
+  .progress-bar {
+    background-color: #448aff;
+    height: 100%;
+  }
+}
